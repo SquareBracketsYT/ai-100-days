@@ -1,0 +1,13 @@
+mkdir 01-first-ai-app
+python -m venv ai_env_100
+For windows:
+ai_env_100\Scripts\activate
+
+For mac/linux
+source ai_env_100/bin/activate
+
+Install Google Gen AI library
+pip install google-genai
+
+Install Python dot-env for saving environment variables
+pip install python-dotenv
