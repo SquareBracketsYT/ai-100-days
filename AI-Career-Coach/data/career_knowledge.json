@@ -1,0 +1,27 @@
+{
+    "ai_engineer": {
+        "skills" : [
+            "Python", "Machine Learning", "Deep Learning",
+            "Gen AI", "Agentic AI", "RAG", "MCP"
+        ],
+
+        "certifications" : [
+            "AI-102", "Google-GenAI"
+        ],
+        "projects": [
+            "AI Career Coach",
+            "Resume Analyzer",
+            "Interview Assistant"
+        ]
+    },
+
+    "data_scientist": {
+        "skills" : [
+            "Python", "Statistics", "Data Analysis", "Data Visualization"
+        ],
+
+        "certifications" : [
+            "DP-100"
+        ]
+    }
+}

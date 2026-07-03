@@ -10,14 +10,22 @@ from agents.reviewer_agent import ReviewerAgent
 
 from orchestrator.agent_orchestrator import AgentOrchestrator
 
+from routing.workflow_registry import WorkflowRegistry
+from routing.workflow_router import WorkflowRouter
+
 from memory.shared_memory import SharedMemory
 from memory.conversation_memory import ConversationMemory
 from services.gemini_service import GeminiService
+from knowledge.knowledge_base import KnowledgeBase
 
 def main() -> None:
     conversation_memory = ConversationMemory()
     gemini_service = GeminiService()
-    
+    knowledge_base = KnowledgeBase("data/career_knowledge.json")
+
+    workflow_registry = WorkflowRegistry()
+    workflow_router = WorkflowRouter(gemini_service, workflow_registry)
+
     while True:
         print("=" * 70)
         print("AI Career Coach")
@@ -37,10 +45,13 @@ def main() -> None:
         memory.add("user_query", user_query)
 
         # Create Agents
-        planner = PlannerAgent(memory, gemini_service, conversation_memory)
-        researcher = ResearchAgent(memory, gemini_service, conversation_memory)
-        writer = WriterAgent(memory, gemini_service, conversation_memory)
-        reviewer = ReviewerAgent(memory, gemini_service, conversation_memory)
+        planner = PlannerAgent(memory, gemini_service, conversation_memory, knowledge_base)
+
+        researcher = ResearchAgent(memory, gemini_service, conversation_memory, knowledge_base)
+
+        writer = WriterAgent(memory, gemini_service, conversation_memory, knowledge_base)
+        
+        reviewer = ReviewerAgent(memory, gemini_service, conversation_memory, knowledge_base)
 
         orchestrator = AgentOrchestrator(memory, conversation_memory)
         orchestrator.register(planner)
@@ -48,7 +59,19 @@ def main() -> None:
         orchestrator.register(writer)
         orchestrator.register(reviewer)
 
-        final_response = orchestrator.execute()
+        # Route User's Request
+        decision = workflow_router.route(user_query)
+        decision.display()
+
+        # Retrieve the workflow
+        workflow = workflow_registry.get_workflow(
+            decision.workflow_name
+        )
+
+        for index, agent in enumerate(workflow, start=1):
+            print(f"{index}. {agent.title()} Agent")
+        
+        final_response = orchestrator.execute(workflow)
 
         print("="*70)
         print("FINAL CAREER ROADMAP")
