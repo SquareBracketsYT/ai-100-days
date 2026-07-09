@@ -23,9 +23,15 @@ class WorkflowRegistry:
         """
         Initialize all the supported workflow
         """
-        self._workflows: Dict[str, List[str]] = {
+        self._workflows: Dict[str, List[str | List[str]]] = {
+            # "roadmap": [
+            #     "planner", "researcher", "writer", "reviewer"
+            # ],
             "roadmap": [
-                "planner", "researcher", "writer", "reviewer"
+                "planner", 
+                ["researcher", "project", "certification"], 
+                "writer", 
+                "reviewer"
             ],
             "certification": [
                 "researcher", "writer"
