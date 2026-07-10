@@ -1,38 +1,24 @@
-# Import os module to access environment variables
-import os
-
-# Load variables from .env file
-from dotenv import load_dotenv
-
-# LangChain wrapper for Google Gemini
-from langchain_google_genai import ChatGoogleGenerativeAI
-
-# Load environment variables
-load_dotenv()
-
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-if not GEMINI_API_KEY:
-    raise ValueError("Gemini API Key not found...")
+from services.llm_service import get_model
+from prompts.coding_prompt import coding_prompt
 
 
-# Create Gemini Model
-model = ChatGoogleGenerativeAI(
-    model="gemini-flash-latest",
-    temperature=0.5,
-    google_api_key=GEMINI_API_KEY
-)
+def main():
+    model = get_model()
+    while True:
+        question = input("Ask coding question: ")
 
-print("=" * 60)
-print("Welcome to Langchain...")
-print("=" * 60)
+        if question.lower() == "exit":
+            print("Thankyou for using AI Coding Assistant")
+            break
 
-question = input("Ask your question: ")
-print("\nGenerating Reponse...\n")
+        print("\nGenerating Response")
+        prompt = coding_prompt.invoke({
+            "question": question
+        })
+        response = model.invoke(prompt)
+        print(response.content[0]['text'])
+        print("\n" + "=" * 70)
 
-response = model.invoke(question)
 
-print("=" * 60)
-print("AI Response")
-print(response.content[0]["text"])
-print("=" * 60)
+if __name__ == "__main__":
+    main()
