@@ -1,0 +1,68 @@
+Create virtual environment
+
+windows:
+python -m venv langchain_env
+
+mac:
+python3 -m venv langchain_env
+
+Activate the environment
+windows user:
+langchain_env\Scripts\activate
+
+mac user:
+source langchain_env/bin/activate
+
+
+Install packages:
+pip install langchain
+pip install langchain-google-genai
+pip install python-dotenv
+
+
+LLM Provider - Gemini / OpenAI / Claude
+We prefer Gemini because it's free
+
+Generate Gemini API key from Google AI studio
+
+
+AI Coding Assistant
+
+Prompt Templates
+- Reusable prompts
+
+If I ask:
+Write Bubble sort
+It works...
+
+Explain Bubble sort like I am a 10 years old
+Different response
+
+Now try this:
+Act like a Java Architect
+
+Desired behaviour of Coding Assistant:
+1. Professional
+2. Senior software engineer
+3. Give optimized code
+4. Explain complexity
+5. Mention best practices
+
+
+System Prompt
+- Design the persionality of assistant
+
+For example:
+You are a senior software engineer with 15+ years of experience
+Help users write clean, optimized, production-ready code
+Always explain your solution
+Mention time and space complexity where applicable
+Suggest best practices
+
+Now every response will be consistent
+
+
+Human Message:
+{user_query}
+
+
