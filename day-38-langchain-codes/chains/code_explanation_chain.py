@@ -1,0 +1,4 @@
+from prompts.code_explanation_prompt import code_explanation_prompt
+from chains.chain_factory import build_chain
+
+code_explanation_chain = build_chain(code_explanation_prompt)
